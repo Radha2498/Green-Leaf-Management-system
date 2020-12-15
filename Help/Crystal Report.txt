@@ -1,0 +1,10 @@
+Imports CrystalDecisions.CrystalReports.Engine
+
+Public Class CONTRACTORS_REPORT
+    Private Sub CONTRACTORS_REPORT_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim cryRpt As New ReportDocument
+        cryRpt.Load("C:\Users\Admin\Desktop\Builder Construction Management\Builder Construction Managment System\Builder Construction Managment System\CONTRACTORS.rpt")
+        CrystalReportViewer1.ReportSource = cryRpt
+        CrystalReportViewer1.Refresh()
+    End Sub
+End Class

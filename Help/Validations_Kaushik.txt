@@ -1,0 +1,87 @@
+    'Date can not be in past
+    Private Sub sdate_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles sdate.ValueChanged
+        If DateDiff(DateInterval.Day, sdate.Value.Date, Now) > 0 Then
+            MsgBox("Date Can not be in Past...")
+            Return
+        End If
+    End Sub
+
+    'End Date must be after Start date
+    Private Sub edate_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles edate.ValueChanged
+        If DateDiff(DateInterval.Day, sdate.Value.Date, edate.Value.Date) < 0 Then
+            MsgBox("End Date must be after Start date...")
+            Return
+        End If
+    End Sub
+
+
+
+
+
+
+   'Validation on Click of Save button
+   Private Function ValidateData()
+
+        'check if all textboxes are filled
+        If (sid.Text = "" Or sname.Text = "" Or saddr.Text = "" Or contact.Text = "" Or email.Text = "" Or ssup.Text = "") Then
+            MsgBox("All Fields Are Mandatory", MsgBoxStyle.Critical, "Fields Empty")
+            Return False
+
+        'contact number must be exact 10 digits
+        ElseIf (contact.Text.Length <> 10) Then
+            MsgBox("Contact number must be 10 digits", MsgBoxStyle.Critical, "Incorrect Data")
+            Return False
+
+        'validate email
+        ElseIf email.Text <> "" Then
+            Try
+                Dim vEmailAddress As New System.Net.Mail.MailAddress(email.Text)
+                Return True
+            Catch ex As Exception
+                MsgBox("Invalid Email Id", MsgBoxStyle.Critical, "Incorrect Data")
+                Return False
+            End Try
+        Else
+            Return True
+        End If
+        Return False
+    End Function
+
+   'allow only numbers
+
+   Private Sub contact_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles scont.KeyPress
+        If Not Char.IsDigit(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+
+
+
+
+   'allow only alphabets
+    Private Sub sname_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles sname.KeyPress
+        If Not Char.IsLetter(e.KeyChar) AndAlso Not Char.IsControl(e.KeyChar) Then
+            e.Handled = True
+        End If
+    End Sub
+
+     'Amount must be more than 0
+     Private Sub amount_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles conpaid.TextChanged
+        If Val(amount.Text) < 0 Then
+            MsgBox("Amount can not be less than 0", MsgBoxStyle.Critical, "Incorrect Amount")
+        End If
+    End Sub
+
+'if any radio button is not selected
+If ((radioGen.Checked = False) And (radioOBC.Checked = False) And (radioSC.Checked = False) And (radioST.Checked = False)) Then
+    MessageBox.Show("Select the Category", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    Exit Sub
+    radioGen.Focus()
+End If
+
+'if date is not selected
+If dob.value = Now Then
+    MessageBox.Show("Enter the Date of Birth", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    dob.Focus()
+End If
